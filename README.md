@@ -12,8 +12,9 @@ $ php anonymizedb.php help
 
 TODO
 ====
-[] - Address 
-[] - City
-[] - Postal code
-[] - Phone number
-[] - More documentation and examples
+
+- Address  
+- City  
+- Postal code  
+- Phone number  
+- More documentation and examples  

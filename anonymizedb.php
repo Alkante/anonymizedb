@@ -161,31 +161,45 @@ function bddConnect(array $database){
 		Expect :
 		$database = [
 			"type" => "<DB_TYPE>",
+			// optionnal :
 			"host" => "<HOST>",
 			"port" => "<PORT>",
 			"dbname" => "<DB_NAME>",
 			"user" => "<USER>",
 			"password" => "<PASSWORD>",
-			"schema" => "<SCHEMA>"
+			"schema" => "<SCHEMA>",
+			"charset" => "<CHARSET>"
+			"path" => "<PATH>"
 		]
 	*/
 	$dbh = null;
 	try {
-		foreach ([
-			"type",
-			"host",
-			"port",
-			"dbname",
-			"user",
-			"password"
-		] as $value) {
-			if(!isset($database[$value])){
-				throw new Exception("Missing database.$value in json!");
-			}else{
-				$$value = $database[$value];
-			}
+		$param = [];
+		$type = "";
+		if(isset($database["type"])){
+			$type = $database["type"];
+			unset($database["type"]);
+		}else{
+			throw new Exception("Missing database.type in json!");
 		}
-		$dbh = new PDO("$type:host=$host;port=$port;dbname=$dbname;user=$user;password=$password");
+		if(isset($database["path"])){
+			$param[] = $database["path"];// for sqlite
+			unset($database["path"]);
+		}
+		foreach ($database as $key => $value) {
+			$param[$key] = "$key=$value";
+		}
+		if($type == "mysql" || $type == "oci"){
+			$user = $param['user'];
+			$password = $param['password'];
+			unset($param['user']);
+			unset($param['password']);
+			$param = implode(";", $param);
+			$dbh = new PDO("$type:$param", $user, $password);
+		}else{
+			$param = implode(";", $param);
+			$dbh = new PDO("$type:$param");
+		}
 		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	} catch(PDOException $e) {
 		throw new Exception($e->getMessage());

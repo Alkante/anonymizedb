@@ -2,8 +2,8 @@ Anonymizedb
 ===========
 
 Tool for anonymize fields in your development database.  
-You can generate random name, firstname, date, string, ...
-
+You can generate random name, firstname, date, string, ...  
+It works with all databases supported by PDO.
 
 Need
 ====

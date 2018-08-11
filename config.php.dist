@@ -1,0 +1,5 @@
+<?php
+define("FUNCTION_PREFIX", "randomData_");
+define("VERBOSE", true);
+define("DONT_SAVE", false); // true if you want to debug your functions
+define("LIMIT_COUNT_DATA", 3); // if DONT_SAVE == true then print only X row and exit

@@ -20,11 +20,12 @@ function randomData_<NAME_OF_YOUR_FUNCTION>(string $fieldName, array $data, $par
   }else{
     $<YOUR_PARAM> = getParam($param, '<YOUR_PARAM>', '<DEFAULT_VALUE>'');
 
-    $value = "";
+    $oldValue = $data[$fieldName];
+    $newValue = "";
 
     //do something
 
-    return $value;
+    return $newValue;
   }
 }
 ```

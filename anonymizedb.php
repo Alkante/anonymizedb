@@ -1,9 +1,12 @@
 <?php
 
-define("FUNCTION_PREFIX", "randomData_");
-define("VERBOSE", true);
+if(!is_file('config.php')){
+	echo "Please copy config.php.dist to config.php and edit it.\n";
+	exit();
+}
 
 $GLOBALS['dico']=[];
+include 'config.php';
 
 $elms = scandir("./functions/");
 unset($elms[0]);// .
@@ -236,8 +239,11 @@ function countDataInTable($dbh, string $tableName, array $ids){
 }
 
 function updateTable($dbh, string $tableName, $countData, array $idsName, array $fields, array $skipline){
-	
-$countData = 30;//FIXME remove me!
+	if(defined("DONT_SAVE") && DONT_SAVE){
+		if(defined("LIMIT_COUNT_DATA")){
+			$countData = (int) LIMIT_COUNT_DATA;
+		}
+	}
 
 	$nbRow = 10;
 
@@ -310,7 +316,9 @@ $countData = 30;//FIXME remove me!
 						$sth->bindValue(":$key", $data[$key]);
 					}
 
-					$sth->execute();
+					if(!defined("DONT_SAVE") || DONT_SAVE==false){
+						$sth->execute();
+					}
 					if(VERBOSE){
 						printf("\r%-30s","$num/$countData, $order:".$data[$order]);
 					}

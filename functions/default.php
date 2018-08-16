@@ -157,7 +157,7 @@ function randomData_string(string $fieldName, array $data, $param=[]){
 			"return" => "Return a string.",
 			"param" => [
 				//"char" => "String allow char. Ex: «0-9a-z» or «abcd» or «a-f0-9» ...",
-				"char" => "String allow char. Ex: «0123456789». Default 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+				"char" => "String allow char. Ex: «0123456789».\n\tDefault 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
 				"size" => "Integer size of the string. Default 10"
 			],
 			"info" => ""
@@ -196,16 +196,44 @@ function randomData_number(string $fieldName, array $data, $param=[]){
 	}
 }
 
+function randomData_phoneNumber(string $fieldName, array $data, $param=[]){
+	if(!empty($param['showHelp'])){
+		return [
+			"return" => "Return a phoneNumber.",
+			"param" => [
+				"format" => 'Format of the number. Replace all "X" in string by a number [0-9].'
+							."\n\tDefault : \"0X XX XX XX XX\" => \"03 72 13 71 25\""
+							."\n\tExample : \"+33 X XX XX XX XX\" => \"+33 9 16 28 82 19\""
+							."\n\t          \"06 XX XX XX XX\" => \"06 91 94 68 04\""
+							."\n\t          \"0X.XX.XX.XX.XX\" => \"01.61.96.15.60\""
+			],
+			"info" => ""
+		];
+	}else{
+		$format = getParam($param, "format", '0X XX XX XX XX');
+		$l = strlen($format);
+		$phoneNumber = "";
+		for($i=0; $i<$l; $i++){
+			if($format[$i] == "X" || $format[$i] == "x"){
+				$phoneNumber .= random_int(0,9);
+			}else{
+				$phoneNumber .= $format[$i];
+			}
+		}
+
+		return $phoneNumber;
+	}
+}
 
 function randomData_date(string $fieldName, array $data, $param=[]){
 	if(!empty($param['showHelp'])){
 		return [
 			"return" => "Return a date.",
 			"param" => [
-				"format" => "[Optional] Format of the date.\tSee https://secure.php.net/manual/en/function.date.php.\tDefault «Y-m-d»",
+				"format" => "[Optional] Format of the date.\n\tSee https://secure.php.net/manual/en/function.date.php.\n\tDefault «Y-m-d»",
 				"now" => "[Optional] If not empyt, return now.",
-				"after" => "[Optional] Find date after.\tSee https://secure.php.net/manual/en/datetime.modify.php.\tDefault «-100 year»",
-				"before" => "[Optional] Find date before.\tSee https://secure.php.net/manual/en/datetime.modify.php.\tDefault «-1 year»",
+				"after" => "[Optional] Find date after.\n\tSee https://secure.php.net/manual/en/datetime.modify.php.\n\tDefault «-100 year»",
+				"before" => "[Optional] Find date before.\n\tSee https://secure.php.net/manual/en/datetime.modify.php.\n\tDefault «-1 year»",
 			],
 			"info" => ""
 		];

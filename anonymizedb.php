@@ -86,8 +86,9 @@ function execHelpFunction(string $functionName){
 
 function listAllFunction(){
 	$prefixLen = strlen(FUNCTION_PREFIX);
+	$function_prefix = strtolower(FUNCTION_PREFIX);
 	foreach (get_defined_functions()['user'] as $functionName) {
-		if(substr($functionName, 0, $prefixLen) == FUNCTION_PREFIX){
+		if(substr($functionName, 0, $prefixLen) == $function_prefix){
 			$help = $functionName("", [],['showHelp'=>true]);
 			$h = "";
 			$p = [];
@@ -108,7 +109,8 @@ function listAllFunction(){
 			}else{
 				$p = "";
 			}
-			echo substr($functionName, $prefixLen)." : $h$p\n";
+			printf("\r%-15s", substr($functionName, $prefixLen));
+			echo "\t: $h$p\n";
 		}
 	}
 }

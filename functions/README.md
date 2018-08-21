@@ -34,9 +34,13 @@ function randomData_<NAME_OF_YOUR_FUNCTION>(string $fieldName, array $data, $par
       "info" => "<OTHER_INFORMATIONS>"
     ];
   }else{
-    $<YOUR_PARAM> = getParam($param, '<YOUR_PARAM>', '<DEFAULT_VALUE>'');
+    $<YOUR_PARAM> = getParam($param, '<YOUR_PARAM>', '<DEFAULT_VALUE>');
+    // Example :
+    //$myparam1 = getParam($param, 'myparam1', '');
 
     $oldValue = $data[$fieldName];
+    // Example :
+    // $oldValue == jdo@exemple.com"
     $newValue = "";
 
     //do something

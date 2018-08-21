@@ -76,16 +76,18 @@ function randomData_email(string $fieldName, array $data, $param=[]){
 		return [
 			"return" => "Return an email.",
 			"param" => [
+				"prefix" => "[Optional] Prefix. <prefix><firstname>.<name>@<domain>. Default null"
+										"\n\tExample : \"test+\" => test+<firstname>.<name>@<domain>",
 				"firstname" => "[Optional] Name of the field «firstname». Default random string",
 				"name" => "[Optional] Name of the field «name». Default null",
 				"domain" => "[Optional] Domain of the email. Default localhost.lan"
 			],
-			"info" => "If firstname, name and domain are set, then output : <firstname>.<name>@<domain>"
+			"info" => "If firstname, name and domain are set, then output : <prefix><firstname>.<name>@<domain>"
 		];
 	}else{
 		$firstname = getParam($param, 'firstname', "");
 		if(!empty($data[$firstname])){
-			$email = $data[$firstname];
+			$email .= $data[$firstname];
 		}
 		$name = getParam($param, 'name', "");
 		if(!empty($data[$name])){
@@ -94,8 +96,7 @@ function randomData_email(string $fieldName, array $data, $param=[]){
 			}
 			$email .= $data[$name];
 		}
-		$domain = getParam($param, 'domain', "localhost.lan");
-		$email .= "@".$domain;
+		$email = getParam($param, 'prefix', "").$email."@".getParam($param, 'domain', "localhost.lan");
 		return strtolower($email);
 	}
 }

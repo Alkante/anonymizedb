@@ -23,7 +23,7 @@ After :
 | id | name       | firstname   | mail                                 | login    | pwd                                                          |
 |----|------------|-------------|--------------------------------------|----------|--------------------------------------------------------------|
 | 1  | admin      | admin       | admin@exemple.com                    | admin    | $2y$10$TIbP5QZSRwG4qgIIPM2Id.xXMppaVA9NS.1l8l1tNmOXcrsPc0tw. |
-| 2  | Lacroix    | Aurore      | test+aurore.lacroix+test@exemple.com | alacroix | $2y$10$TIbP5QZSRwG4qgIIPM2Id.xXMppaVA9NS.1l8l1tNmOXcrsPc0tw. |
+| 2  | Lacroix    | Aurore      | test+aurore.lacroix@exemple.com      | alacroix | $2y$10$TIbP5QZSRwG4qgIIPM2Id.xXMppaVA9NS.1l8l1tNmOXcrsPc0tw. |
 | 3  | Fleury     | Mélissandre | test+mélissandre.fleury@exemple.com	 | mfleury  | $2y$10$TIbP5QZSRwG4qgIIPM2Id.xXMppaVA9NS.1l8l1tNmOXcrsPc0tw. |
 | 4  | Olivier    | Estelle     | test+estelle.olivier@exemple.com     | eolivier | $2y$10$TIbP5QZSRwG4qgIIPM2Id.xXMppaVA9NS.1l8l1tNmOXcrsPc0tw. |
 

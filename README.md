@@ -40,9 +40,10 @@ Setup
 Copy config.php.dist to config.php.  
 Copy ./json/schema.json to ./json/<YOUR_DB_NAME>.json.  
 Edit these files for your needs.  
+See [README.md](./json/README.md)  
   
 You can add php files in ./functions/ with your own functions.  
-See ./functions/README.md
+See [README.md](./functions/README.md)
 
 
 Help
@@ -68,3 +69,9 @@ TODO
 - City  
 - Postal code  
 - More documentation and examples  
+
+
+Authors
+-------
+
+* [Alkante](https://www.alkante.com/)

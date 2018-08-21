@@ -1,4 +1,4 @@
-Put here your files with your functions.  
+Put here your PHP files with your functions.  
   
 Structure of each functions :  
 ```php
@@ -8,6 +8,22 @@ Structure of each functions :
  * @param array $param Parameters from your json
  */
 function randomData_<NAME_OF_YOUR_FUNCTION>(string $fieldName, array $data, $param=[]){
+  /*
+    Examples of param's value :
+    $fieldName == "mail"
+    $data == [
+      "id" => "1",
+      "name" => "Do",
+      "firstname" => "John",
+      "mail" => "jdo@exemple.com",
+      "login" => "jdo",
+      "pwd" => "$2y$10$mK2enen6vIcLbwvfXyq/8ONipueshDe4D6CmuuCS9eH1tx033Cnne"
+    ]
+    $param == [
+      "myparam1" => "plop",
+      "myparam2" => "42",
+    ]  
+  */
   if(!empty($param['showHelp'])){
     return [
       "return" => "<EXPLAINE_WHAT_IT_DOES>",

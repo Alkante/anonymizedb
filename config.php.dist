@@ -2,4 +2,6 @@
 define("FUNCTION_PREFIX", "randomData_");
 define("VERBOSE", true);
 define("DONT_SAVE", false); // true if you want to debug your functions
-define("LIMIT_COUNT_DATA", 3); // if DONT_SAVE == true then print only X row and exit
+define("QUERY_LIMIT_TOTAL_ROW", null); // Limit to only X row and exit
+define("QUERY_OFFSET", 0); // Offset for the limit 
+define("QUERY_NB_ROW", 10); // Number of row for each query

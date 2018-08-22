@@ -62,15 +62,6 @@ $ php anonymizedb.php ./json/<YOUR_DB_NAME>.json
 ```
 
 
-TODO
-----
-
-- Address  
-- City  
-- Postal code  
-- More documentation and examples  
-
-
 Authors
 -------
 

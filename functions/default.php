@@ -53,7 +53,7 @@ function randomData_firstname(string $fieldName, array $data, $param=[]){
       "return" => "Return a firstname.",
       "param" => [
         "dico" => "[Optional] Name of the csv dico in ./dico/. Default firstname_fr.csv",
-        "dicoCol" => "[Optional] Column in the dico. Default 1"
+        "dicoCol" => "[Optional] Column in the dico. Default 1. Start 0."
       ],
       "info" => ""
     ];
@@ -258,5 +258,87 @@ function randomData_date(string $fieldName, array $data, $param=[]){
 
       return date($format, random_int($timeAfter, $timeBefore));
     }
+  }
+}
+
+function randomData_city(string $fieldName, array $data, $param=[]){
+  if(!empty($param['showHelp'])){
+    return [
+      "return" => "Return name of a city",
+      "param" => [
+      	"fieldPostalCode" => "[Optional] Name of your postal code field. Get the city from the postal code.",
+        "dico" => "[Optional] Name of the csv dico in ./dico/. Default laposte_hexasmal.csv",
+        "dicoColCity" => "[Optional] Column in the dico with cities names. Default 1. Start 0"
+      ],
+      "info" => ""
+    ];
+  }else{
+    $dicoName = getParam($param, 'dico', 'laposte_hexasmal.csv');
+    $dicoColCity = getParam($param, 'dicoColCity', 1);
+
+    importFile($dicoName);
+
+    if(!empty($GLOBALS['dico'][$dicoName])){
+    	$row = $GLOBALS['dico'][$dicoName][random_int(0, count($GLOBALS['dico'][$dicoName])-1)];
+    	if(empty($GLOBALS['dico']['city'])){
+    		$GLOBALS['dico']['city'] = [];
+    	}
+    	$GLOBALS['dico']['city'][$row[$dicoColCity]] = $row;
+      return $row[$dicoColCity];
+    }else{
+      return "";
+    }
+  }
+}
+
+function randomData_postalCode(string $fieldName, array $data, $param=[]){
+  if(!empty($param['showHelp'])){
+    return [
+      "return" => "Return name of a postal code",
+      "param" => [
+      	"fieldCity" => "[Optional] Name of your city field. Get the postal code from the city.",
+        "dico" => "[Optional] Name of the csv dico in ./dico/. Default laposte_hexasmal.csv",
+        "dicoColPostalCode" => "[Optional] Column in the dico with postal code. Default 2. Start 0"
+      ],
+      "info" => "It's better to place in your json the function city before postalCode."
+      					."\n\tExample:
+	{ ...
+		\"ville\":{
+			\"function\":\"city\"
+		},
+		\"cp\":{
+			\"function\":\"postalCode\",
+			\"param\":{
+				\"fieldCity\":\"ville\"
+			}
+		}
+	}"
+    ];
+  }else{
+		$fieldCity = getParam($param, 'fieldCity', '');
+    $dicoColPostalCode = getParam($param, 'dicoColPostalCode', 2);
+		if(!empty($fieldCity) && !empty($data[$fieldCity]) && !empty($GLOBALS['dico']['city'][$data[$fieldCity]])){
+			$row = $GLOBALS['dico']['city'][$data[$fieldCity]];
+			if(!empty($row[$dicoColPostalCode])){
+				return $row[$dicoColPostalCode];
+			}else{
+				return null;
+			}
+		}else{
+	    $dicoName = getParam($param, 'dico', 'laposte_hexasmal.csv');
+
+	    importFile($dicoName);
+
+	    if(!empty($GLOBALS['dico'][$dicoName])){
+	    	$row = $GLOBALS['dico'][$dicoName][random_int(0, count($GLOBALS['dico'][$dicoName])-1)];
+	    	if(empty($GLOBALS['dico']['postalCode'])){
+	    		$GLOBALS['dico']['postalCode'] = [];
+	    	}
+	    	$GLOBALS['dico']['postalCode'][$row[$dicoColPostalCode]] = $row;
+	      return $row[$dicoColPostalCode];
+	    }else{
+	      return "";
+	    }
+		}
   }
 }

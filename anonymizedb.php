@@ -235,6 +235,9 @@ function checkFields(array &$fields, string $tableName){
     if(!empty($fielData['sameAs'])){
       continue;
     }
+    if(!empty($fielData['setValue'])){
+      continue;
+    }
     if(empty($fielData['function'])){
       throw new Exception("Missing tables.$tableName.fields.$fieldName.function in json!");
     }
@@ -330,7 +333,7 @@ function updateTable($dbh, string $tableName, $countData, array $idsName, array 
             $newData[$fieldName] = $fieldData['setValue'];
             $data[$fieldName] = $fieldData['setValue'];
           }else{
-            $newData[$fieldName] = $fieldData['function']($fieldName, $data, $fieldData['param']);
+            $newData[$fieldName] = $fieldData['function']($fieldName, $data, (isset($fieldData['param'])?$fieldData['param']:[]));
             $data[$fieldName] = $newData[$fieldName];
           }
         }
@@ -343,7 +346,11 @@ function updateTable($dbh, string $tableName, $countData, array $idsName, array 
             $sth->bindValue(":$key", $data[$key]);
           }
 
-          if(!defined("DONT_SAVE") || DONT_SAVE==false){
+          if(defined("DONT_SAVE") && DONT_SAVE==true){
+            echo "\n";
+            print_r($data);
+            echo "\n";
+          }else{
             $sth->execute();
           }
           if(VERBOSE){
@@ -375,8 +382,10 @@ function importFile(string $fileName){
   }
 }
 
-function getParam(array $param, string $key, string $defaultValue){
-  if(!empty($param[$key])){
+function getParam(?array $param, string $key, string $defaultValue){
+  if(!is_array($param)){
+    return $defaultValue;
+  }elseif(!empty($param[$key])){
     return $param[$key];
   }else{
     return $defaultValue;

@@ -235,7 +235,7 @@ function checkFields(array &$fields, string $tableName){
     if(!empty($fielData['sameAs'])){
       continue;
     }
-    if(!empty($fielData['setValue'])){
+    if(isset($fielData['setValue'])){
       continue;
     }
     if(empty($fielData['function'])){
@@ -329,7 +329,7 @@ function updateTable($dbh, string $tableName, $countData, array $idsName, array 
               $newData[$fieldName] = $newData[$fieldData['sameAs']];
               $data[$fieldName] = $newData[$fieldName];
             }
-          }elseif(!empty($fieldData['setValue'])){
+          }elseif(isset($fieldData['setValue'])){
             $newData[$fieldName] = $fieldData['setValue'];
             $data[$fieldName] = $fieldData['setValue'];
           }else{

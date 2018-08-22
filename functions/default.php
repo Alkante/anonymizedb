@@ -158,7 +158,6 @@ function randomData_string(string $fieldName, array $data, $param=[]){
     return [
       "return" => "Return a string.",
       "param" => [
-        //"char" => "String allow char. Ex: «0-9a-z» or «abcd» or «a-f0-9» ...",
         "char" => "String allow char. Ex: «0123456789».\n\tDefault 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
         "size" => "Integer size of the string. Default 10"
       ],
@@ -177,6 +176,69 @@ function randomData_string(string $fieldName, array $data, $param=[]){
         $randstring .= $characters[random_int(0, $charactersLen)];
     }
     return $randstring;
+  }
+}
+
+function randomData_loremIpsum(string $fieldName, array $data, $param=[]){
+  if(!empty($param['showHelp'])){
+    return [
+      "return" => "Return a string.",
+      "param" => [
+      	"nParagraphs" => "[Optional] Number of paragraphs. Default 1.",
+      	"minSentences" => "[Optional] Min size of sentences. Default 3.",
+      	"maxSentences" => "[Optional] Max size of sentences. Default 8.",
+      	"dico" => "[Optional] Name of the csv dico in ./dico/. Default lorem_ipsum.csv",
+      	"dicoCol" => "[Optional] Column in the dico with word. Default 0. Start 0"
+      ],
+      "info" => ""
+    ];
+  }else{
+    $dicoName = getParam($param, 'dico', 'lorem_ipsum.csv');
+    $dicoCol = getParam($param, 'dicoCol', 0);
+
+		$nParagraphs = getParam($param, 'nParagraphs', 1);
+		$minSentences = getParam($param, 'minSentences', 3);
+		$maxSentences = getParam($param, 'maxSentences', 8);
+
+    importFile($dicoName);
+
+    if(!empty($GLOBALS['dico'][$dicoName])){
+    	$dico = $GLOBALS['dico'][$dicoName];
+    	$nbRow = count($dico)-1;
+
+	    /**
+	     * Lorem ipsum
+	     * By mpen
+	     * https://stackoverflow.com/questions/20633310/how-to-get-random-text-from-lorem-ipsum-in-php#answer-39986034
+	     */
+      $paragraphs = [];
+      for($p = 0; $p < $nParagraphs; ++$p) {
+        $nsentences = random_int($minSentences,$maxSentences);
+        $sentences = [];
+        for($s = 0; $s < $nsentences; ++$s) {
+          $frags = [];
+          $commaChance = .33;
+          while(true) {
+          	$words = [];
+          	$count = random_int(3, 15);
+          	for ($i=0; $i < $count; $i++) { 
+          		$words[] = $dico[random_int(0, $nbRow)][$dicoCol];
+          	}
+            $frags[] = implode(' ', $words);
+            if((random_int(0, PHP_INT_MAX-1)/PHP_INT_MAX) >= $commaChance) {
+              break;
+            }
+            $commaChance /= 2;
+          }
+
+          $sentences[] = ucfirst(implode(', ', $frags)) . '.';
+        }
+        $paragraphs[] = implode(' ',$sentences);
+      }
+      return implode("\n\n",$paragraphs);
+    }else{
+    	return "lorem ipsum dolor sit amet consectetur adipiscing elit praesent interdum dictum mi non egestas nulla in lacus.";
+    }
   }
 }
 

@@ -36,7 +36,7 @@
 					}
 				},
 				"<FIELD_NAME>":{
-					"setvalue":"<VALUE>"
+					"setValue":"<VALUE>"
 				},
 				"<FIELD_NAME>":{
 					"sameAs":"<FIELD_NAME>"
@@ -54,7 +54,7 @@
 					]
 				},
 				"<FIELD_NAME>":{
-					"setvalue":"<VALUE1>",
+					"setValue":"<VALUE1>",
 					"skip":[
 						"<VALUE2>",
 						"<VALUE3>",

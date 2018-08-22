@@ -326,9 +326,9 @@ function updateTable($dbh, string $tableName, $countData, array $idsName, array 
               $newData[$fieldName] = $newData[$fieldData['sameAs']];
               $data[$fieldName] = $newData[$fieldName];
             }
-          }elseif(!empty($fieldData['setvalue'])){
-            $newData[$fieldName] = $fieldData['setvalue'];
-            $data[$fieldName] = $fieldData['setvalue'];
+          }elseif(!empty($fieldData['setValue'])){
+            $newData[$fieldName] = $fieldData['setValue'];
+            $data[$fieldName] = $fieldData['setValue'];
           }else{
             $newData[$fieldName] = $fieldData['function']($fieldName, $data, $fieldData['param']);
             $data[$fieldName] = $newData[$fieldName];

@@ -161,7 +161,7 @@ File .json/demo.json
           }
         },
         "pwd":{
-          "setvalue":"$2y$10$TIbP5QZSRwG4qgIIPM2Id.xXMppaVA9NS.1l8l1tNmOXcrsPc0tw."
+          "setValue":"$2y$10$TIbP5QZSRwG4qgIIPM2Id.xXMppaVA9NS.1l8l1tNmOXcrsPc0tw."
         }
       }
     }

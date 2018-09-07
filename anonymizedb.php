@@ -291,7 +291,7 @@ function updateTable($dbh, string $tableName, $countData, array $idsName, array 
 
   $updateSql = "UPDATE $tableName SET ".implode(", ", $newDataKey)." WHERE ".implode(", ", $idsNameKey).";";
   $num = 1;
-  while ( $queryOffset + $queryLimit  <= $countData) {
+  while ( $queryOffset <= $countData) {
 
     $order = $idsName[0];
     $sth = $dbh->prepare("SELECT * FROM $tableName ORDER BY $order ASC LIMIT :queryLimit OFFSET :queryOffset;");
@@ -360,6 +360,7 @@ function updateTable($dbh, string $tableName, $countData, array $idsName, array 
         }
       }
     }
+
     $queryOffset += $queryLimit;
   }
   if(VERBOSE){

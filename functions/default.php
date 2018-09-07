@@ -404,3 +404,40 @@ function randomData_postalCode(string $fieldName, array $data, $param=[]){
 		}
   }
 }
+
+function randomData_street(string $fieldName, array $data, $param=[]){
+  if(!empty($param['showHelp'])){
+    return [
+      "return" => "Return name of a street",
+      "param" => [
+        "addNum" => "[Optional] Add street number. 0 or 1. Default 0.",
+        "dico" => "[Optional] Name of the csv dico in ./dico/. Default streets_fr.csv",
+        "dicoCol" => "[Optional] Column in the dico with street names. Default 0. Start 0"
+      ],
+      "info" => ""
+    ];
+  }else{
+    $addNum = getParam($param, 'addNum', 0);
+    $dicoName = getParam($param, 'dico', 'streets_fr.csv');
+    $dicoCol = getParam($param, 'dicoCol', 0);
+
+    importFile($dicoName);
+
+    if(!empty($GLOBALS['dico'][$dicoName])){
+      if($addNum){
+        $streetNum = random_int(1,200)." ";
+      }else{
+        $streetNum = "";
+      }
+
+      $row = $GLOBALS['dico'][$dicoName][random_int(0, count($GLOBALS['dico'][$dicoName])-1)];
+      if(empty($GLOBALS['dico']['city'])){
+        $GLOBALS['dico']['city'] = [];
+      }
+      $GLOBALS['dico']['city'][$row[$dicoCol]] = $row;
+      return $streetNum.$row[$dicoCol];
+    }else{
+      return "";
+    }
+  }
+}

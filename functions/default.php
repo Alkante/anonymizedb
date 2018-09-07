@@ -1,4 +1,9 @@
 <?php
+/**
+ * @author Alkante https://www.alkante.com/
+ * @license CeCILL-C
+ * @version 20180907
+ */
 
 function randomData_empty(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){

@@ -1,4 +1,9 @@
 <?php
+/**
+ * @author Alkante https://www.alkante.com/
+ * @license CeCILL-C
+ * @version 20180907
+ */
 
 if(!is_file('config.php')){
   echo "Please copy config.php.dist to config.php and edit it.\n";

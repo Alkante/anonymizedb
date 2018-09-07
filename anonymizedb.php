@@ -356,7 +356,13 @@ function updateTable($dbh, string $tableName, $countData, array $idsName, array 
             print_r($data);
             echo "\n";
           }else{
-            $sth->execute();
+            try {
+              $sth->execute();
+            } catch(PDOException $e) {
+              $msg = $e->getMessage();
+              $msg .= "\ndata :\n".var_export($data, true);
+              throw new Exception($msg);
+            }
           }
           if(VERBOSE){
             printf("\r%-30s","$num/$countData, $order:".$data[$order]);

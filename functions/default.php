@@ -88,6 +88,7 @@ function randomData_email(string $fieldName, array $data, $param=[]){
         "domain" => "[Optional] Domain of the email. Default localhost.lan"
       ],
       "info" => "If firstname, name and domain are set, then output : <prefix><firstname>.<name>@<domain>"
+                ."\n\tElse output : <random_firstname>.<random_name>@<domain>"
     ];
   }else{
     $email = "";
@@ -102,7 +103,11 @@ function randomData_email(string $fieldName, array $data, $param=[]){
       }
       $email .= $data[$name];
     }
-    $email = getParam($param, 'prefix', "").$email."@".getParam($param, 'domain', "localhost.lan");
+    $email = getParam($param, 'prefix', "").$email;
+    if($email == ""){
+      $email = randomData_firstname("", []).".".randomData_name("", []);
+    }
+    $email .="@".getParam($param, 'domain', "localhost.lan");
     return strtolower($email);
   }
 }
@@ -114,7 +119,8 @@ function randomData_login(string $fieldName, array $data, $param=[]){
       "param" => [
         "firstname" => "[Optional] Name of the field «firstname». Default null",
         "name" => "[Optional] Name of the field «name». Default null",
-        "size" => "[Optional] Size of the login. Default 8"
+        "size" => "[Optional] Size of the login. Default 8",
+        "inc" => "[Optional] Add incremental number at the end. 0 or 1. Default 0",
       ],
       "info" => "If firstname and name are set, then login = first letter of firstname + name\n"
                 ."\tElse login = random string"
@@ -123,20 +129,31 @@ function randomData_login(string $fieldName, array $data, $param=[]){
     $login = "";
     $firstname = getParam($param, 'firstname', "");
     $name = getParam($param, 'name', "");
+    $inc = getParam($param, 'inc', 0);
 
     if(!empty($data[$firstname])){
-      $login = substr($data[$firstname], 0,1);
+      $login = mb_substr($data[$firstname], 0, 1);
     }
     if(!empty($data[$name])){
       $login .= $data[$name];
     }
 
     if(empty($login)){
-      return randomData_string('', [], ['size' => 8]);
-    }else{
-      return strtolower($login);
+      $login = randomData_string('', [], ['size' => 8]);
     }
 
+    if($inc){
+      if(!empty($GLOBALS['login_inc'])){
+        $login_inc = (int) $GLOBALS['login_inc'];
+      }else{
+        $login_inc = 0;
+      }
+      $login_inc++;
+      $login .= $login_inc;
+      $GLOBALS['login_inc'] = $login_inc;
+    }
+
+    return strtolower($login);
   }
 }
 

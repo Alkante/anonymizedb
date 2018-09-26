@@ -32,8 +32,8 @@ Config in anonymizedb/json/databases/<YOUR_FILE>.json.
   "password":"<PASSWORD>"
 }
 ```
-  
-## Oracle
+
+## Oracle
 
 ```json
 {
@@ -46,8 +46,8 @@ Config in anonymizedb/json/databases/<YOUR_FILE>.json.
   "password":"<PASSWORD>"
 }
 ```
-  
-## Sqlite
+
+## Sqlite
 
 ```json
 {

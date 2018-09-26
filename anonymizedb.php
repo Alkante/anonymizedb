@@ -2,7 +2,7 @@
 /**
  * @author Alkante https://www.alkante.com/
  * @license CeCILL-C
- * @version 20180907
+ * @version 20180926
  */
 
 if(!is_file('config.php')){
@@ -49,6 +49,9 @@ if (php_sapi_name() == "cli") {
     echo "TODO web interface\n";
 }
 
+/**
+ * Show help
+ */
 function showHelp(){
   echo "Usage\n\n";
   echo "Update database with random data :\n";
@@ -61,7 +64,10 @@ function showHelp(){
   echo "Ex : php ".$_SERVER['argv'][0]." help name\n";
 }
 
-
+/**
+ * Show help for a function
+ * @param string $functionName Name of the function
+ */
 function showHelpFunction(string $functionName){
   if(function_exists(FUNCTION_PREFIX.$functionName)){
     $functionName = FUNCTION_PREFIX.$functionName;
@@ -71,6 +77,10 @@ function showHelpFunction(string $functionName){
   }
 }
 
+/**
+ * Print help for a function
+ * @param string $functionName Name of the function
+ */
 function execHelpFunction(string $functionName){
   $help = $functionName("", [],['showHelp'=>true]);
   if(!empty($help) && is_array($help)){
@@ -89,6 +99,9 @@ function execHelpFunction(string $functionName){
   }
 }
 
+/**
+ * Print the list of available functions.
+ */
 function listAllFunction(){
   $prefixLen = strlen(FUNCTION_PREFIX);
   $function_prefix = strtolower(FUNCTION_PREFIX);
@@ -120,7 +133,11 @@ function listAllFunction(){
   }
 }
 
-
+/**
+ * Run
+ * @param string $jsonDatabaseFileName Json file with database access informations
+ * @param string $jsonTableFileName Json file with table structure
+ */
 function run(string $jsonDatabaseFileName, string $jsonTableFileName){
   if(!is_file($jsonDatabaseFileName)){
     throw new Exception("Not database json file!");
@@ -176,7 +193,11 @@ function run(string $jsonDatabaseFileName, string $jsonTableFileName){
   }
 }
 
-
+/**
+ * Connect to the database
+ * @param array $database Database's informations
+ * @return PDO
+ */
 function bddConnect(array $database){
   /*
     Expect :
@@ -228,6 +249,11 @@ function bddConnect(array $database){
   return $dbh;
 }
 
+/**
+ * Check fields
+ * @param array &$fields Fields
+ * @param string $tableName Table name
+ */
 function checkFields(array &$fields, string $tableName){
   /*
   Expect :
@@ -267,7 +293,30 @@ function checkFields(array &$fields, string $tableName){
   }
 }
 
+/**
+ * Throw exception if forbidden character found.
+ * @param string $string 
+ * @return true if OK
+ */
+function checkForbiddenChar(string $string){
+  foreach (["'", '"', '%', ' ', ',', '$', '-', '.', ';', '`', '\\'] as $char) {
+    if(strpos($string, $char) !== false){
+      throw new Exception("Forbidden character «$char» found in string.");
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Count data in table
+ * @param $dbh PDO
+ * @param string $tableName Table name
+ * @param array $ids Id's name
+ * @return int
+ */
 function countDataInTable($dbh, string $tableName, array $ids){
+  checkForbiddenChar($ids[0]);
   $count =$dbh->query("SELECT count(".$ids[0].") FROM $tableName")->fetchAll(PDO::FETCH_COLUMN, 0);//FIXME escape char
   if(!empty($count)){
     return $count[0];
@@ -276,7 +325,16 @@ function countDataInTable($dbh, string $tableName, array $ids){
   }
 }
 
-function updateTable($dbh, string $tableName, $countData, array $idsName, array $fields, array $skipline){
+/**
+ * Update table
+ * @param $dbh PDO
+ * @param string $tableName Table name
+ * @param int $countData Count of data in table
+ * @param array $idsName Ids' name
+ * @param array $fields Fields
+ * @param array $skipline Skipline
+ */
+function updateTable($dbh, string $tableName, int $countData, array $idsName, array $fields, array $skipline){
   if(defined("QUERY_OFFSET") && QUERY_OFFSET !== null && ((int) QUERY_OFFSET) > 0){
     if(((int) QUERY_OFFSET) < $countData ){
       $queryOffset = (int) QUERY_OFFSET;
@@ -301,18 +359,21 @@ function updateTable($dbh, string $tableName, $countData, array $idsName, array 
 
   $newDataKey = [];
   foreach ($fields as $fieldName => $fieldData) {
-    $newDataKey[] = "$fieldName = :$fieldName";
+    checkForbiddenChar("$fieldName=:$fieldName");
+    $newDataKey[] = "$fieldName=:$fieldName";
   }
   $idsNameKey = [];
   foreach ($idsName as $fieldName) {
-    $idsNameKey[] = "$fieldName = :$fieldName";
+    checkForbiddenChar("$fieldName=:$fieldName");
+    $idsNameKey[] = "$fieldName=:$fieldName";
   }
 
   $updateSql = "UPDATE $tableName SET ".implode(", ", $newDataKey)." WHERE ".implode(", ", $idsNameKey).";";
   $num = 1;
   while ( $queryOffset <= $countData) {
-
     $order = $idsName[0];
+    checkForbiddenChar("$tableName");
+    checkForbiddenChar("$order");
     $sth = $dbh->prepare("SELECT * FROM $tableName ORDER BY $order ASC LIMIT :queryLimit OFFSET :queryOffset;");
     $sth->bindValue(':queryLimit', $queryLimit);
     $sth->bindValue(':queryOffset', $queryOffset);
@@ -393,6 +454,10 @@ function updateTable($dbh, string $tableName, $countData, array $idsName, array 
   }
 }
 
+/**
+ * Import file in $GLOBALS['dico']
+ * @param string $fileName File name
+ */
 function importFile(string $fileName){
   if(isset($GLOBALS['dico'][$fileName])){
     return;
@@ -408,6 +473,13 @@ function importFile(string $fileName){
   }
 }
 
+/**
+ * Get parameter
+ * @param ?array $param Parameters
+ * @param string $key Parameter name
+ * @param string $defaultValue Default value
+ * @return string
+ */
 function getParam(?array $param, string $key, string $defaultValue){
   if(!is_array($param)){
     return $defaultValue;

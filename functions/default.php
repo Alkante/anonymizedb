@@ -2,9 +2,16 @@
 /**
  * @author Alkante https://www.alkante.com/
  * @license CeCILL-C
- * @version 20180907
+ * @version 20180926
  */
 
+/**
+ * Return an empty string
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_empty(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
@@ -17,6 +24,13 @@ function randomData_empty(string $fieldName, array $data, $param=[]){
   }
 }
 
+/**
+ * Return null
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_null(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
@@ -29,6 +43,13 @@ function randomData_null(string $fieldName, array $data, $param=[]){
   }
 }
 
+/**
+ * Return a random name
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_name(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
@@ -52,6 +73,13 @@ function randomData_name(string $fieldName, array $data, $param=[]){
   }
 }
 
+/**
+ * Return a random firstname
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_firstname(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
@@ -76,6 +104,13 @@ function randomData_firstname(string $fieldName, array $data, $param=[]){
   }
 }
 
+/**
+ * Return a random email
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_email(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
@@ -112,6 +147,13 @@ function randomData_email(string $fieldName, array $data, $param=[]){
   }
 }
 
+/**
+ * Return a random login
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_login(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
@@ -157,6 +199,13 @@ function randomData_login(string $fieldName, array $data, $param=[]){
   }
 }
 
+/**
+ * Return a password
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_password(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
@@ -175,6 +224,13 @@ function randomData_password(string $fieldName, array $data, $param=[]){
   }
 }
 
+/**
+ * Return a random string
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_string(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
@@ -201,6 +257,13 @@ function randomData_string(string $fieldName, array $data, $param=[]){
   }
 }
 
+/**
+ * Return a random lorem ipsum
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_loremIpsum(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
@@ -264,6 +327,13 @@ function randomData_loremIpsum(string $fieldName, array $data, $param=[]){
   }
 }
 
+/**
+ * Return a random number
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_number(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
@@ -282,6 +352,13 @@ function randomData_number(string $fieldName, array $data, $param=[]){
   }
 }
 
+/**
+ * Return a random phone number
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_phoneNumber(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
@@ -311,6 +388,13 @@ function randomData_phoneNumber(string $fieldName, array $data, $param=[]){
   }
 }
 
+/**
+ * Return a random date
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_date(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
@@ -345,10 +429,17 @@ function randomData_date(string $fieldName, array $data, $param=[]){
   }
 }
 
+/**
+ * Return a random city's name
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_city(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
-      "return" => "Return name of a city",
+      "return" => "Return a city's name",
       "param" => [
       	"fieldPostalCode" => "[Optional] Name of your postal code field. Get the city from the postal code.",
         "dico" => "[Optional] Name of the csv dico in ./dico/. Default laposte_hexasmal.csv",
@@ -375,10 +466,17 @@ function randomData_city(string $fieldName, array $data, $param=[]){
   }
 }
 
+/**
+ * Return a random postal code
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_postalCode(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
-      "return" => "Return name of a postal code",
+      "return" => "Return a postal code",
       "param" => [
       	"fieldCity" => "[Optional] Name of your city field. Get the postal code from the city.",
         "dico" => "[Optional] Name of the csv dico in ./dico/. Default laposte_hexasmal.csv",
@@ -427,10 +525,17 @@ function randomData_postalCode(string $fieldName, array $data, $param=[]){
   }
 }
 
+/**
+ * Return a random street's name
+ * @param string $fieldName Name of field
+ * @param array $data Row's datas
+ * @param array $param Parameters
+ * @return  
+ */
 function randomData_street(string $fieldName, array $data, $param=[]){
   if(!empty($param['showHelp'])){
     return [
-      "return" => "Return name of a street",
+      "return" => "Return a street's name",
       "param" => [
         "addNum" => "[Optional] Add street number. 0 or 1. Default 0.",
         "dico" => "[Optional] Name of the csv dico in ./dico/. Default streets_fr.csv",

@@ -38,9 +38,9 @@ Setup
 -----
 
 Copy config.php.dist to config.php.  
-Copy ./json/schema.json to ./json/<YOUR_DB_NAME>.json.  
+Copy ./json/databases/schema.json to ./json/databases/<YOUR_DB_NAME>.json. See [README.md](./json/databases/README.md)  
+Copy ./json/tables/schema.json to ./json/tables/<YOUR_TALBE_NAME>.json. See [README.md](./json/tables/README.md)  
 Edit these files for your needs.  
-See [README.md](./json/README.md)  
   
 You can add php files in ./functions/ with your own functions.  
 See [README.md](./functions/README.md)

@@ -58,7 +58,7 @@ Run
 
 To anonymize the data in your database :  
 ```
-$ php anonymizedb.php ./json/<YOUR_DB_NAME>.json
+$ php anonymizedb.php ./json/databases/<YOUR_DB_NAME>.json ./json/tables/<YOUR_TABLE_NAME>.json
 ```
 
 

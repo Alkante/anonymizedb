@@ -1,0 +1,9 @@
+{
+	"type":"<DB_TYPE>",
+	"host":"<HOST>",
+	"port":"<PORT>",
+	"path":"<PATH>",
+	"dbname":"<DB_NAME>",
+	"user":"<USER>",
+	"password":"<PASSWORD>"
+}

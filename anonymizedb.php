@@ -39,7 +39,7 @@ if (php_sapi_name() == "cli") {
     }elseif($_SERVER['argv'][1] == "list"){
       listAllFunction();
     }else{
-      run($_SERVER['argv'][1]);
+      run($_SERVER['argv'][1], $_SERVER['argv'][2]);
     }
   } catch (Exception $e) {
     echo $e->getMessage()."\n";
@@ -52,8 +52,8 @@ if (php_sapi_name() == "cli") {
 function showHelp(){
   echo "Usage\n\n";
   echo "Update database with random data :\n";
-  echo "php ".$_SERVER['argv'][0]." ./json/<jsonFileName>\n";
-  echo "Ex : php ".$_SERVER['argv'][0]." ./json/example.json\n";
+  echo "php ".$_SERVER['argv'][0]." ./json/databases/<jsonFileName> ./json/tables/<jsonFileName>\n";
+  echo "Ex : php ".$_SERVER['argv'][0]." ./json/databases/mydatabase.json ./json/tables/mytable.json\n";
   echo "\nList available functions in json :\n";
   echo "php ".$_SERVER['argv'][0]." list\n";
   echo "\nHelp for a function :\n";
@@ -121,14 +121,28 @@ function listAllFunction(){
 }
 
 
-function run(string $jsonFileName){
-  if(!is_file($jsonFileName)){
-    throw new Exception("Not json file!");
+function run(string $jsonDatabaseFileName, string $jsonTableFileName){
+  if(!is_file($jsonDatabaseFileName)){
+    throw new Exception("Not database json file!");
   }
 
-  $json = @json_decode(@file_get_contents($jsonFileName), true);
-  if(empty($json)){
-    throw new Exception("Json parsing error!\n".json_last_error_msg ());
+  if(!is_file($jsonTableFileName)){
+    throw new Exception("Not table json file!");
+  }
+
+  $json = [
+    'database' => [],
+    'tables' => []
+  ];
+
+  $json['database'] = @json_decode(@file_get_contents($jsonDatabaseFileName), true);
+  if(empty($json['database'])){
+    throw new Exception("Database json file : parsing error!\n".json_last_error_msg ());
+  }
+
+  $json['tables'] = @json_decode(@file_get_contents($jsonTableFileName), true);
+  if(empty($json['tables'])){
+    throw new Exception("Table json file : parsing error!\n".json_last_error_msg ());
   }
 
   if(!empty($json['database'])){
